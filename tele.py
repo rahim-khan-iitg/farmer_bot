@@ -1,5 +1,5 @@
-from telegram import Update
-from telegram.ext import Application,CommandHandler,MessageHandler,filters,ContextTypes
+from telegram import Update,InlineKeyboardButton,InlineKeyboardMarkup
+from telegram.ext import Application,CommandHandler,MessageHandler,filters,ContextTypes,CallbackQueryHandler
 from dotenv import load_dotenv
 import os
 import requests
@@ -11,7 +11,18 @@ bot_username=os.getenv("BOT_USERNAME")
 api_key=os.getenv("TELEGRAM_BOT_API_TOKEN")
 
 async def start_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("hello my name is farmers bot how can i help you")
+    keyboard = [
+        [
+            InlineKeyboardButton("Option 1", callback_data="1"),
+            InlineKeyboardButton("Option 2", callback_data="2"),
+        ],
+        [InlineKeyboardButton("Option 3", callback_data="3")],
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await update.message.reply_text("Please choose:", reply_markup=reply_markup)
+    # await update.message.reply_text("hello my name is farmers bot how can i help you")
 
 async def help_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("let me know what do you want??")
@@ -51,6 +62,11 @@ async def handle_voice_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
     print(x)
     await update.message.reply_voice(res.content)
 
+async def button(update:Update,context:ContextTypes.DEFAULT_TYPE):
+    query=update.callback_query
+    await query.answer()
+    print(query.data)
+
 async def error(update:Update,context:ContextTypes.DEFAULT_TYPE):
     print(f"error occured {update} {context.error}")
 
@@ -61,6 +77,7 @@ if __name__=="__main__":
     app.add_handler(CommandHandler("start",start_command))
     app.add_handler(CommandHandler('help',help_command))
     app.add_handler(CommandHandler('custom',custom_command))
+    app.add_handler(CallbackQueryHandler(button))
 
     app.add_handler(MessageHandler(filters.TEXT,handle_message))
     app.add_handler(MessageHandler(filters.VOICE,handle_voice_message))
