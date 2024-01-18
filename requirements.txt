@@ -1,2 +1,9 @@
 python-telegram-bot
 python-dotenv
+requests
+langchain
+langchain-google-genai
+datasets
+qdrant-client
+tenacity
+pandas
