@@ -48,7 +48,7 @@ class Qdrant_Retriever:
 
     def connect_to_qdrant_as_retriver(self):
         client=QdrantClient(QDRANT_ENDPOINT,api_key=QDRANT_API_KEY)
-        collection_name="big_basket"
+        collection_name="agri_qa"
         embedding_model=load_embedding_model()
         qdrant=Qdrant(client=client,collection_name=collection_name,embeddings=embedding_model)
         retriver=qdrant.as_retriever()

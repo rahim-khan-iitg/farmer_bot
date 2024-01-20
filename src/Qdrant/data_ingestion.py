@@ -3,12 +3,12 @@ from dataclasses import dataclass
 import os
 
 @dataclass
-class DataLoaderConfig:
+class DataIngestorConfig:
     dataset_path=os.path.join("data","data.csv")
 
-class DataLoader:
+class DataIngestor:
     def __init__(self) -> None:
-        self.file_path=DataLoaderConfig().dataset_path
+        self.file_path=DataIngestorConfig().dataset_path
     
     def initialize_data_ingestion(self,dataset_name:str)->None:
         try:

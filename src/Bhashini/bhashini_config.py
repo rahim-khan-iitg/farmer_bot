@@ -1,6 +1,7 @@
 from enum import Enum
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -10,62 +11,64 @@ BHASINI_API_KEY=os.getenv("BHASINI_API_KEY")
 PiplineSearchEndPoint="https://meity-auth.ulcacontrib.org/ulca/apis/v0/model/getModelsPipeline"
 InferenceApiEndPoint="https://dhruva-api.bhashini.gov.in/services/inference/pipeline"
 
-class Languages(Enum):
-    English="en"
-    Hindi="hi"
-    bengali='bn'
-    kannada='kn'
-    malyalam='ml'
-    marathi='mr'
-    oriya='or'
-    tamil='ta'
-    telugu='te'
-    punjabi='pa'
-    gujrati='gu'
-    
-class ASRServiceIDs(Enum):
-    bengali="ai4bharat/conformer-multilingual-indo_aryan-gpu--t4"
-    english="ai4bharat/whisper-medium-en--gpu--t4"
-    gujrati="ai4bharat/conformer-multilingual-indo_aryan-gpu--t4"
-    hindi="ai4bharat/conformer-hi-gpu--t4"
-    kannada="ai4bharat/conformer-multilingual-dravidian-gpu--t4"
-    malyalam="ai4bharat/conformer-multilingual-dravidian-gpu--t4"
-    marathi="ai4bharat/conformer-multilingual-indo_aryan-gpu--t4"
-    oriya="ai4bharat/conformer-multilingual-indo_aryan-gpu--t4"
-    punjabi="ai4bharat/conformer-multilingual-indo_aryan-gpu--t4"
-    tamil="ai4bharat/conformer-multilingual-dravidian-gpu--t4"
-    telugu="ai4bharat/conformer-multilingual-dravidian-gpu--t4"
+Languages={
+    "english":"en",
+    "hindi":"hi",
+    "bengali":'bn',
+    "kannada":'kn',
+    "malyalam":'ml',
+    "marathi":'mr',
+    "oriya":'or',
+    "tamil":'ta',
+    "telugu":'te',
+    "punjabi":'pa',
+    "gujrati":'gu'
+}
+ASRServiceIDs={
+   "bengali":"ai4bharat/conformer-multilingual-indo_aryan-gpu--t4",
+   "english":"ai4bharat/whisper-medium-en--gpu--t4",
+   "gujrati":"ai4bharat/conformer-multilingual-indo_aryan-gpu--t4",
+   "hindi":"ai4bharat/conformer-hi-gpu--t4",
+   "kannada":"ai4bharat/conformer-multilingual-dravidian-gpu--t4",
+    "malyalam":"ai4bharat/conformer-multilingual-dravidian-gpu--t4",
+   "marathi":"ai4bharat/conformer-multilingual-indo_aryan-gpu--t4",
+    "oriya":"ai4bharat/conformer-multilingual-indo_aryan-gpu--t4",
+   "punjabi":"ai4bharat/conformer-multilingual-indo_aryan-gpu--t4",
+    "tamil":"ai4bharat/conformer-multilingual-dravidian-gpu--t4",
+    "telugu":"ai4bharat/conformer-multilingual-dravidian-gpu--t4"}
 
-class TTSServiceIDs(Enum):
-    bengali="ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4"
-    english="ai4bharat/indic-tts-coqui-misc-gpu--t4"
-    gujrati="ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4"
-    hindi="ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4"
-    kannada="ai4bharat/indic-tts-coqui-dravidian-gpu--t4"
-    malyalam="ai4bharat/indic-tts-coqui-dravidian-gpu--t4"
-    marathi="ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4"
-    oriya="ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4"
-    punjabi="ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4"
-    tamil="ai4bharat/indic-tts-coqui-dravidian-gpu--t4"
-    telugu="ai4bharat/indic-tts-coqui-dravidian-gpu--t4"
+TTSServiceIDs={
+    "bengali":"ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4",
+    "english":"ai4bharat/indic-tts-coqui-misc-gpu--t4",
+    "gujrati":"ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4",
+    "hindi":"ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4",
+    "kannada":"ai4bharat/indic-tts-coqui-dravidian-gpu--t4",
+    "malyalam":"ai4bharat/indic-tts-coqui-dravidian-gpu--t4",
+    "marathi":"ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4",
+    "oriya":"ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4",
+    "punjabi":"ai4bharat/indic-tts-coqui-indo_aryan-gpu--t4",
+     "tamil":"ai4bharat/indic-tts-coqui-dravidian-gpu--t4",
+   "telugu":"ai4bharat/indic-tts-coqui-dravidian-gpu--t4"}
 
-class TraslationServiceIDs(Enum):
-    serviceID="ai4bharat/indictrans-v2-all-gpu--t4" # single service id  is there for all type of translation
+TraslationServiceIDs={
+   "serviceID":"ai4bharat/indictrans-v2-all-gpu--t4"} # single service id  is there for all type of translation
 
-class PipeLineIDs(Enum):
-    Meity="64392f96daac500b55c543cd"
-    AI4Bharat="643930aa521a4b1ba0f4c41d"
+PipeLineIDs={
+    "Meity":"64392f96daac500b55c543cd",
+    "AI4Bharat":"643930aa521a4b1ba0f4c41d"
+}
 
-class PipeLineTasks(Enum):
-    automatic_speech_recoginition='asr'
-    translation='translation'
-    text_to_speech='tts'
+PipeLineTasks={
+    "automatic_speech_recoginition":'asr',
+    "translation":'translation',
+    "text_to_speech":'tts'
+    }
 
 
 class Payloads:
     def __init__(self) -> None:
         pass
-    def ASRPayload(self,language:Languages,audio_encoding:str,serviceId:ASRServiceIDs,audio_format='wav'):
+    def ASRPayload(self,language,audio_encoding:str,serviceId,audio_format='wav'):
         """we 11 languages decribed in the above enum class
         and audio encoding should be in base64 of mp3 or wav format"""
         payload={
@@ -85,7 +88,7 @@ class Payloads:
                     "inputData": {
                         "input": [
                             {
-                                "source": None
+                                "source": "null"
                             }
                         ],
                         "audio": [
@@ -97,7 +100,7 @@ class Payloads:
                 }
         return payload
 
-    def TTSPayload(self,language:Languages,serviceId:TTSServiceIDs,content:str,gender:str):
+    def TTSPayload(self,language,serviceId,content:str,gender:str='female'):
         payload={
                     "pipelineTasks": [       
                         {
@@ -126,7 +129,7 @@ class Payloads:
                 }
         return payload
     
-    def TranslationPayload(self,source_lang:Languages,target_lang:Languages,content:str,serviceId=TraslationServiceIDs.serviceID):
+    def TranslationPayload(self,source_lang,target_lang,content:str,serviceId=TraslationServiceIDs['serviceID']):
         payload={
                     "pipelineTasks": [
                         {
@@ -155,7 +158,7 @@ class Payloads:
                 }
         return payload
     
-    def PipeLineSearchPayload(self,task:PipeLineTasks,language:Languages,pipelineid:PipeLineIDs):
+    def PipeLineSearchPayload(self,task,language,pipelineid):
         payload={
                 "pipelineTasks": [
                     {
@@ -181,7 +184,10 @@ class Payloads:
         return header
     
     def InferenceAPIHeader(self):
-        with open('./inference_key.json','r') as file:
+        with open(os.path.join("src","Bhashini","inference_key.json"),'r') as file:
             api_header=file.read()
-        return api_header
+        header={"Content-Type":"application/json","Accept":"*/*","Accept-Encoding":"gzip, deflate, br","Cache-Control":"no-cache"}
+        js_data=json.loads(api_header)
+        header['Authorization']=js_data['Authorization']
+        return header
     
