@@ -5,5 +5,5 @@ langchain
 langchain-google-genai
 datasets
 qdrant-client
-tenacity
 pandas
+mysql-connector-python

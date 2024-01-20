@@ -18,9 +18,3 @@ class Gemini:
     def generete_ans(self,question:str)->str:
         result=self.chain.invoke({"question":question})
         return result.content
-
-
-
-# if __name__=="__main__":
-#     llm=Gemini()
-#     print(llm.generete_ans("hello"))
