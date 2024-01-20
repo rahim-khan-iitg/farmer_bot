@@ -69,3 +69,11 @@ python main.py
 
 ```
 it will run the bot using ```Gemini``` . Now we can try it in telegram app.
+![Alt text](image.png)
+
+in text mode it support all the languages but in the voice to voice communication it support above 11 languages . When we start the bot using ``` /start ``` command it shows some settings to choose if you have already selected these settings then ignore it. and It has two modes ``` General ``` and ``` Farmers help``` select the ```General``` if you want to talk about  general issues not related to farming. Select ```Farmers Help ``` if you want specific details . But it won't work because we haven't set our knowledge base for our bot . To do it first of select a dataset from [Huggingface](http://huggingface.co/). Copy its name and now run the following file and provide this name.
+```
+python src/Qdrant/load.py 
+
+```
+after completion it will setup our knowledgebase , Now we can use it in Farmers help mode also. 
