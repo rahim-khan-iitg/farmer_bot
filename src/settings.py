@@ -2,6 +2,7 @@ from telegram import InlineKeyboardButton,InlineKeyboardMarkup
 from src.Bhashini.bhashini_config import Languages
 from src.MYSQL.sql_handler import sql   
 
+
 class BotSettings:
     def __init__(self) -> None:
         pass
@@ -20,4 +21,4 @@ async def button_handler(userid:int,action:str,setting):
     if action=="mode":
         sql().update_mode(userid,setting)
     if action=="lang":
-        sql().update_lang(userid,setting)
+        sql().update_lang(userid,setting)    

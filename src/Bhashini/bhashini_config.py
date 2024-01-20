@@ -1,8 +1,8 @@
-from enum import Enum
+import requests
 from dotenv import load_dotenv
 import os
 import json
-
+from src.logger import logging
 load_dotenv()
 
 BHASINI_USERID=os.getenv("BHASINI_USERID")
@@ -190,4 +190,21 @@ class Payloads:
         js_data=json.loads(api_header)
         header['Authorization']=js_data['Authorization']
         return header
-    
+
+def update_inference_key():
+    try:
+        payload=Payloads().PipeLineSearchPayload('asr','hi',PipeLineIDs["Meity"])
+        header={"Content-Type":"application/json","Accept":"*/*","Accept-Encoding":"gzip, deflate, br","Cache-Control":"no-cache"}
+        header['userID']=BHASINI_USERID
+        header['ulcaApiKey']=BHASINI_API_KEY
+        res=requests.post(url=PiplineSearchEndPoint,data=json.dumps(payload),headers=header)
+        if res.status_code==200:
+            response=res.json()
+            data=response["pipelineInferenceAPIEndPoint"]["inferenceApiKey"]
+            name=data['name']
+            value=data['value']
+            api_key={name:value}
+            with open(os.path.join("src","Bhashini","inference_key.json"),'w') as file:
+                file.write(json.dumps(api_key))
+    except Exception as e:
+        logging.info("inference key is not updated")
