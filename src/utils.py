@@ -81,30 +81,22 @@ async def handle_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("some error occured")
 
 async def handle_voice_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
-    try:
-        message=update.message.voice
-        userid=update.effective_user.id
-        lang=sql().get_lang(userid)
-        file=await message.get_file()
-        file_path=file.file_path
-        try:
-            res=requests.post(ffmpeg_endpoint,{"url":file_path})
-            logging.info("successfully converted voice message to wav format")
-        except Exception as e:
-            logging.info("ffmpeg service is not accessible!!")
-        data=res.json()
-        asr=ASR()
-        data=asr.from_base64(data['base64Wav'],lang)
-        text=data['pipelineResponse'][0]['output'][0]['source']
-        ans=handle_response(text,userid)
-        tts=TTS()
-        voice_data=tts.convert_text_speech(ans,lang)
-        voice=voice_data['pipelineResponse'][0]['audio'][0]['audioContent']
-        b_64_decode=base64.b64decode(voice)
-        await update.message.reply_voice(voice=BytesIO(b_64_decode))
-    except Exception as e:
-        logging.info(f"some error occured {e}")
-        await update.message.reply_text("cannot handle voice messages right now ffmpeg service is not running")
+    message=update.message.voice
+    userid=update.effective_user.id
+    lang=sql().get_lang(userid)
+    file=await message.get_file()
+    file_path=file.file_path
+    res=requests.post(ffmpeg_endpoint,{"url":file_path})
+    data=res.json()
+    asr=ASR()
+    data=asr.from_base64(data['base64Wav'],lang)
+    text=data['pipelineResponse'][0]['output'][0]['source']
+    ans=handle_response(text,userid)
+    tts=TTS()
+    voice_data=tts.convert_text_speech(ans,lang)
+    voice=voice_data['pipelineResponse'][0]['audio'][0]['audioContent']
+    b_64_decode=base64.b64decode(voice)
+    await update.message.reply_voice(voice=BytesIO(b_64_decode))
 
 async def button(update:Update,context:ContextTypes.DEFAULT_TYPE):
     userid=update.effective_user.id
