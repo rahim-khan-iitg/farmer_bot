@@ -12,9 +12,9 @@ if __name__=="__main__":
         help="gemini works for all languages and mixtral only works for english language"
         )
     args=parser.parse_args()
-    logging.info("updating the bhashini inference api key")
+    print("updating the bhashini inference api key")
     update_inference_key()
-    logging.info(f"bot started with {args.model}")
+    print(f"bot started with {args.model}")
     main(args.model)
 
     
