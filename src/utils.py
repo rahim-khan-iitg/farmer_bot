@@ -16,12 +16,13 @@ load_dotenv()
 bot_username=os.getenv("BOT_USERNAME")
 api_key=os.getenv("TELEGRAM_BOT_API_TOKEN")
 ffmpeg_endpoint=os.getenv("FFMPEG_ENDPOINT")
+lang='english'
 
 model='gemini'
 
 async def start_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     userid=update.effective_user.id
-    sql().start(userid)
+    # sql().start(userid)
     logging.info("start command executed")
     reply_markup = BotSettings().SendLanguages()
     await update.message.reply_text("Please select the language:", reply_markup=reply_markup)
@@ -42,7 +43,8 @@ async def help_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
 def handle_response(text:str,userid)->str:
     processed=text.lower()
     try:
-        mode=sql().get_mode(userid)
+        # mode=sql().get_mode(userid)
+        mode='general'
         if model=='mixtral':
             llm=Mixtral()
             ans=llm.generete_ans(processed)
@@ -83,7 +85,8 @@ async def handle_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
 async def handle_voice_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
     message=update.message.voice
     userid=update.effective_user.id
-    lang=sql().get_lang(userid)
+    # lang=sql().get_lang(userid)
+    global lang
     file=await message.get_file()
     file_path=file.file_path
     res=requests.post(ffmpeg_endpoint,{"url":file_path})
@@ -103,8 +106,10 @@ async def button(update:Update,context:ContextTypes.DEFAULT_TYPE):
     query=update.callback_query
     await query.answer()
     setting,action=query.data.split()
-    await button_handler(userid,action,setting)
-
+    # await button_handler(userid,action,setting)
+    if action=='lang':
+        global lang
+        lang=setting
 
 async def error(update:Update,context:ContextTypes.DEFAULT_TYPE):
     print(f"error occured {update} {context.error}")
