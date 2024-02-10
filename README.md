@@ -76,4 +76,5 @@ in text mode it support all the languages but in the voice to voice communicatio
 python src/Qdrant/load.py 
 
 ```
-after completion it will setup our knowledgebase , Now we can use it in Farmers help mode also. 
+after completion it will setup our knowledgebase , Now we can use it in Farmers help mode also. \
+demo videor can be found [here](https://1drv.ms/v/s!AkYWRzSbA_aUny88pkv1jO6sbCPf?e=J2sUpo)
